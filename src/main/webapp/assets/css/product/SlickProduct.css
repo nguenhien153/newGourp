@@ -1,0 +1,35 @@
+﻿.slider {
+    width: 100%;
+    margin: 15px auto;
+}
+
+.slick-slide {
+    margin: 0px 20px;
+}
+
+.slick-slide img {
+    width: 100%;
+}
+
+
+.slick-next:before {
+
+    content: url('../../../image/icon/slick/left-arrow.png');
+}
+
+.slick-prev:before {
+    content: url('../../../image/icon/slick/right-arrow.png');
+}
+
+.slick-slide {
+    transition: all ease-in-out .3s;
+    opacity: .2;
+}
+
+.slick-active {
+    opacity: 2;
+}
+
+.slick-current {
+    opacity: 2;
+}
