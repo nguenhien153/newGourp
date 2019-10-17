@@ -118,4 +118,3 @@ insert into Pay_infor(CustomerID,InvoiceDetailID,Status,Pay_method,PayInforID,Ca
 
 select * from Pay_infor;
 -----------------------------------Viet_end--------------------------------------------------
-abcd
