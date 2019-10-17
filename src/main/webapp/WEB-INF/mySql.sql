@@ -142,7 +142,7 @@ CREATE TABLE `diamond` (
   `create_by` varchar(50) NOT NULL,
   `modify_by` varchar(50) DEFAULT NULL,
   `product_name` varchar(50) NOT NULL,
-  `carats` float(5,3) NOT NULL,
+  `carat` float(5,3) NOT NULL,
   `total_number` int(11) NOT NULL,
   `total_weight` float(5,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -151,7 +151,7 @@ CREATE TABLE `diamond` (
 -- Đang đổ dữ liệu cho bảng `diamond`
 --
 
-INSERT INTO `diamond` (`id`, `date_create`, `date_modify`, `create_by`, `modify_by`, `product_name`, `carats`, `total_number`, `total_weight`) VALUES
+INSERT INTO `diamond` (`id`, `date_create`, `date_modify`, `create_by`, `modify_by`, `product_name`, `carat`, `total_number`, `total_weight`) VALUES
 (5, '2019-10-13', NULL, 'test', NULL, 'Halo Diamond Band', 0.030, 45, 0.320),
 (8, '2019-10-13', NULL, 'test', NULL, 'Haze Elegance Ring', 0.050, 10, 0.020),
 (9, '2019-10-13', NULL, 'test', NULL, 'Marvel Solitaire Ring', 0.008, 8, 0.012),
@@ -549,8 +549,10 @@ CREATE TABLE `product_detail_view` (
 ,`product_type_name` varchar(50)
 ,`weight_product` double(19,2)
 ,`width` float(5,2)
+,`height` float(5,2)
 ,`lenght` float(5,2)
 ,`grand_total` double(19,2)
+,`making_charges` decimal(10,2)
 ,`default_option` tinyint(1)
 ,`main_image` text
 ,`sub_image` text
@@ -710,7 +712,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `product_detail_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_detail_view`  AS  select `product`.`product_name` AS `product_name`,`product_type`.`category_name` AS `category_name`,`product_view`.`product_type_name` AS `product_type_name`,`product_view`.`weight_product` AS `weight_product`,`product`.`width` AS `width`,`product`.`lenght` AS `lenght`,`product_view`.`grand_total` AS `grand_total`,`metal_view`.`default_option` AS `default_option`,`metal_view`.`main_image` AS `main_image`,`metal_view`.`sub_image` AS `sub_image`,`metal_view`.`image_1` AS `image_1`,`metal_view`.`image_2` AS `image_2`,`metal_view`.`image_3` AS `image_3`,`metal_view`.`image_4` AS `image_4` from (((`product_view` left join `product` on(`product`.`product_name` = `product_view`.`product_name`)) left join `product_type` on(`product_type`.`product_type_name` = `product_view`.`product_type_name`)) left join `metal_view` on(`product`.`product_name` = `metal_view`.`product_name` and `metal_view`.`default_option` = 1)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_detail_view`  AS  select `product`.`product_name` AS `product_name`,`product_type`.`category_name` AS `category_name`,`product_view`.`product_type_name` AS `product_type_name`,`product_view`.`weight_product` AS `weight_product`,`product`.`width` AS `width`,`product`.`height` AS `height`,`product`.`lenght` AS `lenght`,`product_view`.`grand_total` AS `grand_total`,`product_view`.`making_charges` AS `making_charges`,`metal_view`.`default_option` AS `default_option`,`metal_view`.`main_image` AS `main_image`,`metal_view`.`sub_image` AS `sub_image`,`metal_view`.`image_1` AS `image_1`,`metal_view`.`image_2` AS `image_2`,`metal_view`.`image_3` AS `image_3`,`metal_view`.`image_4` AS `image_4` from (((`product_view` left join `product` on(`product`.`product_name` = `product_view`.`product_name`)) left join `product_type` on(`product_type`.`product_type_name` = `product_view`.`product_type_name`)) left join `metal_view` on(`product`.`product_name` = `metal_view`.`product_name` and `metal_view`.`default_option` = 1)) ;
 
 -- --------------------------------------------------------
 
