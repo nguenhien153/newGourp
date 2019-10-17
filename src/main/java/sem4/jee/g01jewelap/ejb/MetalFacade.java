@@ -28,5 +28,7 @@ public class MetalFacade extends AbstractFacade<Metal> {
     public MetalFacade() {
         super(Metal.class);
     }
+
+     
     
 }

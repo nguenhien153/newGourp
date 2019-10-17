@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,11 @@ public class GemstoneViewFacade extends AbstractFacade<GemstoneView> {
 
     public GemstoneViewFacade() {
         super(GemstoneView.class);
+    }
+
+    public List<GemstoneView> findByName(String name) {
+         return em.createNativeQuery("SELECT * FROM gemstone_view WHERE product_name = '"+
+                 name+"' ORDER BY price", GemstoneView.class).getResultList();
     }
     
 }

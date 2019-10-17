@@ -57,8 +57,8 @@ public class Diamond implements Serializable {
     private String modifyBy;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "carats")
-    private float carats;
+    @Column(name = "carat")
+    private float carat;
     @Basic(optional = false)
     @NotNull
     @Column(name = "total_number")
@@ -78,11 +78,11 @@ public class Diamond implements Serializable {
         this.id = id;
     }
 
-    public Diamond(Integer id, Date dateCreate, String createBy, float carats, int totalNumber, float totalWeight) {
+    public Diamond(Integer id, Date dateCreate, String createBy, float carat, int totalNumber, float totalWeight) {
         this.id = id;
         this.dateCreate = dateCreate;
         this.createBy = createBy;
-        this.carats = carats;
+        this.carat = carat;
         this.totalNumber = totalNumber;
         this.totalWeight = totalWeight;
     }
@@ -127,12 +127,12 @@ public class Diamond implements Serializable {
         this.modifyBy = modifyBy;
     }
 
-    public float getCarats() {
-        return carats;
+    public float getCarat() {
+        return carat;
     }
 
-    public void setCarats(float carats) {
-        this.carats = carats;
+    public void setCarat(float carat) {
+        this.carat = carat;
     }
 
     public int getTotalNumber() {

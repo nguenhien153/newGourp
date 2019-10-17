@@ -6,12 +6,11 @@
 package sem4.jee.g01jewelap.entity.mysql;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -21,8 +20,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "product_detail_view")
-@NamedQueries({
-    @NamedQuery(name = "ProductDetailView.findAll", query = "SELECT p FROM ProductDetailView p")})
+
 public class ProductDetailView implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,10 +39,14 @@ public class ProductDetailView implements Serializable {
     private Double weightProduct;
     @Column(name = "width")
     private Float width;
+    @Column(name = "height")
+    private Float height;
     @Column(name = "lenght")
     private Float lenght;
     @Column(name = "grand_total")
     private Double grandTotal;
+    @Column(name = "making_charges")
+    private BigDecimal makingCharges;
     @Column(name = "default_option")
     private Boolean defaultOption;
     @Lob
@@ -115,6 +117,14 @@ public class ProductDetailView implements Serializable {
         this.width = width;
     }
 
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+
     public Float getLenght() {
         return lenght;
     }
@@ -129,6 +139,14 @@ public class ProductDetailView implements Serializable {
 
     public void setGrandTotal(Double grandTotal) {
         this.grandTotal = grandTotal;
+    }
+
+    public BigDecimal getMakingCharges() {
+        return makingCharges;
+    }
+
+    public void setMakingCharges(BigDecimal makingCharges) {
+        this.makingCharges = makingCharges;
     }
 
     public Boolean getDefaultOption() {

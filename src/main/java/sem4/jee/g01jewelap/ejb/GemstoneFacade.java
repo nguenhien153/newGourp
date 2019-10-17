@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,11 @@ public class GemstoneFacade extends AbstractFacade<Gemstone> {
 
     public GemstoneFacade() {
         super(Gemstone.class);
+    }
+
+    public List<Gemstone> findByName(String name) {
+        return em.createNativeQuery("select id ,width , lenght, total_number, total_weight, carat from "
+                + "gemstone where product_name = '" + name + "'", Gemstone.class).getResultList();
     }
     
 }

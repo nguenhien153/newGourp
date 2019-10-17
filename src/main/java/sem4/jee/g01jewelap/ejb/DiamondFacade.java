@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,10 @@ public class DiamondFacade extends AbstractFacade<Diamond> {
     public DiamondFacade() {
         super(Diamond.class);
     }
-    
+
+    public List<Diamond> findByName(String name) {
+        return em.createNativeQuery("select id ,carat , total_number ,total_weight from "
+                + "diamond where product_name = '" + name + "'", Diamond.class).getResultList();
+    }
+
 }

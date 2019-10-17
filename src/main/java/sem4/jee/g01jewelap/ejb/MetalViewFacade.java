@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,11 @@ public class MetalViewFacade extends AbstractFacade<MetalView> {
     public MetalViewFacade() {
         super(MetalView.class);
     }
-    
+
+    public List<MetalView> findByName(String name) {
+        return em.createNativeQuery("SELECT * FROM metal_view where product_name = '"+name
+                +"' ORDER BY default_option DESC", MetalView.class)
+                .getResultList();
+    }
+
 }

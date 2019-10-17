@@ -15,9 +15,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sem4.jee.g01jewelap.dto.ProductDetailOption;
+import sem4.jee.g01jewelap.ejb.DiamondFacade;
+import sem4.jee.g01jewelap.ejb.DiamondViewFacade;
+import sem4.jee.g01jewelap.ejb.GemstoneFacade;
+import sem4.jee.g01jewelap.ejb.GemstoneViewFacade;
+import sem4.jee.g01jewelap.ejb.MetalFacade;
+import sem4.jee.g01jewelap.ejb.MetalViewFacade;
 
 import sem4.jee.g01jewelap.ejb.ProductDetailViewFacade;
 import sem4.jee.g01jewelap.ejb.ProductViewFacade;
+import sem4.jee.g01jewelap.entity.mysql.Diamond;
+import sem4.jee.g01jewelap.entity.mysql.DiamondView;
+import sem4.jee.g01jewelap.entity.mysql.Gemstone;
+import sem4.jee.g01jewelap.entity.mysql.GemstoneView;
+import sem4.jee.g01jewelap.entity.mysql.MetalView;
 import sem4.jee.g01jewelap.entity.mysql.ProductDetailView;
 import sem4.jee.g01jewelap.entity.mysql.ProductView;
 
@@ -28,7 +40,21 @@ import sem4.jee.g01jewelap.entity.mysql.ProductView;
 @WebServlet(urlPatterns = {"/api-displayproduct"})
 public class DisplayProductServlet extends HttpServlet {
 
- 
+    @EJB
+    private GemstoneFacade gemstoneFacade;
+
+    @EJB
+    private MetalViewFacade metalViewFacade;
+
+    @EJB
+    private GemstoneViewFacade gemstoneViewFacade;
+
+    @EJB
+    private DiamondViewFacade diamondViewFacade;
+
+    @EJB
+    private DiamondFacade diamondFacade;
+
     @EJB
     private ProductDetailViewFacade productDetailViewFacade;
 
@@ -43,12 +69,30 @@ public class DisplayProductServlet extends HttpServlet {
         if (req.getParameter("name") != null) {
             String name = req.getParameter("name");
 
+            ProductDetailOption ProductDetailOption = new ProductDetailOption();
+
+            List<Diamond> listDiamond = diamondFacade.findByName(name);
+            List<Gemstone> listGemstone = gemstoneFacade.findByName(name);
+
+            List<DiamondView> diamondViews = diamondViewFacade.findByName(name);
+            List<GemstoneView> gemstoneViews = gemstoneViewFacade.findByName(name);
+            List<MetalView> metalViews = metalViewFacade.findByName(name);
+
             ProductDetailView productDetailView = productDetailViewFacade.find(name);
-         
-            if (productDetailView == null) {
+
+            if (productDetailView == null && metalViews == null) {
                 mapper.writeValue(resp.getOutputStream(), "Not Found !!!");
             } else {
-                mapper.writeValue(resp.getOutputStream(), productDetailView);
+
+                ProductDetailOption.setListDiamond(listDiamond);
+                ProductDetailOption.setListGemstone(listGemstone);
+
+                ProductDetailOption.setDiamondViews(diamondViews);
+                ProductDetailOption.setGemstoneViews(gemstoneViews);
+                ProductDetailOption.setMetalViews(metalViews);
+
+                ProductDetailOption.setDetailView(productDetailView);
+                mapper.writeValue(resp.getOutputStream(), ProductDetailOption);
             }
         } else {
             List<ProductView> listPro = em.findAll();
