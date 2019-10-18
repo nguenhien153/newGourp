@@ -1157,7 +1157,7 @@ create table ShoppingCart(
     quantity int not null,
     price float not null,
     buy_date timestamp,
-    whishListID boolean,
+    whishListStatus boolean default('true'),
     created_at timestamp,
     update_at timestamp,
     deleted_at timestamp,
@@ -1168,9 +1168,9 @@ create table ShoppingCart(
     constraint FK_ShoppingCart_Discount foreign key(discountID) references discount(id)
 );
 -- ---Insert giá trị cho bảng ShoppingCart-----
-insert into ShoppingCart(productID,accountID,locationsID,discountID,size,weight,type,quantity,price,whishListID) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
+insert into ShoppingCart(productID,accountID,locationsID,discountID,size,weight,type,quantity,price) values
+('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
+('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
 select * from ShoppingCart;
 
 -- ---Tạo bảng chi tiết hóa đơn------
