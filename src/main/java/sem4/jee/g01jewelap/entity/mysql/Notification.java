@@ -7,7 +7,9 @@ package sem4.jee.g01jewelap.entity.mysql;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,6 +34,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n")})
 public class Notification implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
+    private List<AccountNotification> accountNotificationList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -174,6 +180,14 @@ public class Notification implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Notification[ id=" + id + " ]";
+    }
+
+    public List<AccountNotification> getAccountNotificationList() {
+        return accountNotificationList;
+    }
+
+    public void setAccountNotificationList(List<AccountNotification> accountNotificationList) {
+        this.accountNotificationList = accountNotificationList;
     }
     
 }

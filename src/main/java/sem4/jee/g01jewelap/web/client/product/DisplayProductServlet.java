@@ -20,7 +20,6 @@ import sem4.jee.g01jewelap.ejb.DiamondFacade;
 import sem4.jee.g01jewelap.ejb.DiamondViewFacade;
 import sem4.jee.g01jewelap.ejb.GemstoneFacade;
 import sem4.jee.g01jewelap.ejb.GemstoneViewFacade;
-import sem4.jee.g01jewelap.ejb.MetalFacade;
 import sem4.jee.g01jewelap.ejb.MetalViewFacade;
 
 import sem4.jee.g01jewelap.ejb.ProductDetailViewFacade;

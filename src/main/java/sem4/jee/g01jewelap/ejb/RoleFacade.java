@@ -8,16 +8,16 @@ package sem4.jee.g01jewelap.ejb;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import sem4.jee.g01jewelap.entity.Role;
+import sem4.jee.g01jewelap.entity.mysql.Role;
 
 /**
  *
- * @author thao
+ * @author nguen
  */
 @Stateless
 public class RoleFacade extends AbstractFacade<Role> {
 
-    @PersistenceContext(unitName = "sem4.jee_g01jewelap_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName = "jewelap_mysql")
     private EntityManager em;
 
     @Override
@@ -28,5 +28,12 @@ public class RoleFacade extends AbstractFacade<Role> {
     public RoleFacade() {
         super(Role.class);
     }
+
+    public Role findByRoleName(String roleName) {
+        return em.createQuery("SELECT p FROM Role p WHERE p.name = :name", Role.class)
+                .setParameter("name", roleName)
+                .getSingleResult();
+    }
+    
     
 }
