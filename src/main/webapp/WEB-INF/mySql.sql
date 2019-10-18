@@ -1,7 +1,7 @@
+
 create database jewelap;
---
--- Cấu trúc bảng cho bảng `account`
---
+
+use jewelap;
 
 CREATE TABLE `account` (
   `account_id` int(11) NOT NULL,
@@ -1173,6 +1173,29 @@ insert into ShoppingCart(productID,accountID,locationsID,discountID,size,weight,
 ('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
 select * from ShoppingCart;
 
+-- ---tạo bảng thông tin thanh toán của khách hàng-----
+drop table Pay_infor;
+create table Pay_infor(
+    id int generated always as identity,
+    accountID int not null,
+    custNameInfor varchar(200),
+    custAddInfor varchar(255),
+    custPhoneInfor int,
+    userBankInfor varchar(200),
+    numberCardInfor varchar(50),
+    cardOpenDate date,
+    create_at timestamp,
+    update_at timestamp,
+    delete_at timestamp,
+    primary key(id),
+    constraint FK_Pay_infor_Customer foreign key(accountID) references account(account_id),
+);
+-- ---Insert giá trị cho bảng thông tin thanh toán của khách hàng----
+insert into Pay_infor(accountID,custNameInfor,custAddInfor,custPhoneInfor,userBankInfor,numberCardInfor,cardOpenDate) values
+('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
+('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
+select * from Pay_infor;
+
 -- ---Tạo bảng chi tiết hóa đơn------
 drop table Invoice_detail;
 create table Invoice_detail(
@@ -1225,27 +1248,4 @@ insert into Invoice(accountID,invoiceDetailID,locationsID,payInforID,status,pay_
 ('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
 ('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
 select * from Invoice;
-
--- ---tạo bảng thông tin thanh toán của khách hàng-----
-drop table Pay_infor;
-create table Pay_infor(
-    id int generated always as identity,
-    accountID int not null,
-    custNameInfor varchar(200),
-    custAddInfor varchar(255),
-    custPhoneInfor int,
-    userBankInfor varchar(200),
-    numberCardInfor varchar(50),
-    cardOpenDate date,
-    create_at timestamp,
-    update_at timestamp,
-    delete_at timestamp,
-    primary key(id),
-    constraint FK_Pay_infor_Customer foreign key(accountID) references account(account_id),
-);
--- ---Insert giá trị cho bảng thông tin thanh toán của khách hàng----
-insert into Pay_infor(accountID,custNameInfor,custAddInfor,custPhoneInfor,userBankInfor,numberCardInfor,cardOpenDate) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
-select * from Pay_infor;
 -----------------------------------Viet_end--------------------------------------------------
