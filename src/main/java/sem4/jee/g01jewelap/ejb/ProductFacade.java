@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,18 @@ public class ProductFacade extends AbstractFacade<Product> {
     public ProductFacade() {
         super(Product.class);
     }
-    
+
+    public Integer getIdByProductName(String productName) {
+        List<Product> products = em.createQuery("SELECT p FROM Product p WHERE p.productName = :name", Product.class)
+                .setParameter("name", productName)
+                .getResultList();
+        if (products.isEmpty()) {
+            return null;
+        }
+        else{
+           Product product = products.get(0);
+           return product.getId();
+        }
+    }
+
 }

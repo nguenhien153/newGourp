@@ -198,7 +198,7 @@
                                 <div class="col-lg-6">
                                     <select class="selectList" id="diamondListOption">
                                     </select>
-                                     <label>Diamond</label>
+                                    <label>Diamond</label>
                                     <div class="lang-select">
                                         <button class="btn-select" value="" id="diamondSelected"></button>
                                         <div class="b" id="listUldiamond">
@@ -211,7 +211,7 @@
                                     <select class="selectList" id="gemstoneListOption">
                                     </select>
                                     <div class="lang-select">
-                                         <label>Gemstone</label>
+                                        <label>Gemstone</label>
                                         <button class="btn-select" value="" id="gemstoneSelected"></button>
                                         <div class="b" id="listUlgemstone">
                                             <ul id="gemstoneOption" class="listOption"></ul>
@@ -225,7 +225,7 @@
                         <!--card body-->
 
                         <div class="card-footer text-center">
-                            <button class="btn btn-primary col-lg-5 m-auto">Add to Cart</button>
+                            <button class="btn btn-primary col-lg-5 m-auto" id="addToCart">Add to Cart</button>
                             <button class="btn btn-info col-lg-3 ml-lg-5">Buy Now</button>
                         </div>
                     </div>
@@ -483,6 +483,11 @@
             var oldPriceGemstone;
             var materialProduct;
 
+            var cartMetal;
+            var cartDiamond;
+            var cartGemstone;
+            var cartPrice;
+            var cartProductName;
             function getInfoImage(arrayImage, id)
             {
                 var img = $(id).attr("data-thumbnail");
@@ -520,7 +525,7 @@
                 productPrice = (productPrice - old + neww).toFixed(2);
                 $("#grandTotalProduct").text(numeral(productPrice).format('$0,0.00'));
                 $("#productPrice").text(numeral(productPrice).format('$0,0.00'));
-
+                cartPrice = productPrice;
                 showToast("Price changed to " + numeral(productPrice).format('$0,0.00'));
             }
 
@@ -568,6 +573,10 @@
                     product = data;
 
                     changeImage(product.detailView);
+
+                    cartPrice = product.detailView.grandTotal;
+                    cartProductName = product.detailView.productName;
+                    cartMetal = product.metalViews[0].metalType;
 
                     $('#productName').text(product.detailView.productName);
                     productPrice = product.detailView.grandTotal;
@@ -622,7 +631,7 @@
                         $('#metalSelected').html(item);
                         $('#metalSelected').attr('value', value);
                         $("#listUlMetal").toggle();
-
+                        cartMetal = value;
                         metalOption = product.metalViews.find(obj => {
                             return obj.metalType === value;
                         });
@@ -653,7 +662,7 @@
                         $("#diamondSelected").css('display', 'none');
                         $("#diamondInfoDiv").css('display', 'none');
                     } else {
-
+                        cartDiamond = product.diamondViews[0].diamondType;
                         materialProduct = materialProduct + "Diamonds (" + numeral(product.diamondViews[0].totalWeight).format('0,0.00') + '/g ,' + product.diamondViews[0].diamondType + ")";
 
                         createRowInTable('#diamondInfoDiv', product.listDiamond, product.diamondViews[0]);
@@ -682,7 +691,7 @@
                             $('#diamondSelected').html(item);
                             $('#diamondSelected').attr('value', value);
                             $("#listUldiamond").toggle();
-
+                            cartDiamond = value;
                             diamondOption = product.diamondViews.find(obj => {
                                 return obj.diamondType === value;
                             });
@@ -711,7 +720,7 @@
                         $("#gemstoneSelected").css('display', 'none');
                         $("#gemstoneSelected").css('display', 'none');
                     } else {
-
+                        cartGemstone = product.gemstoneViews[0].gemstoneType;
                         createRowInTable('#gemstoneInfoDiv', product.listGemstone, product.gemstoneViews[0]);
                         oldPriceGemstone = product.gemstoneViews[0].price;
                         product.gemstoneViews.forEach(function (element) {
@@ -742,6 +751,7 @@
                             gemstoneOption = product.gemstoneViews.find(obj => {
                                 return obj.gemstoneType === value;
                             });
+                            cartDiamond = value;
                             createRowInTable('#gemstoneInfoDiv', product.listGemstone, gemstoneOption);
                             calculatePrice(oldPriceGemstone, gemstoneOption.price);
                             oldPriceGemstone = gemstoneOption.price;
@@ -765,6 +775,32 @@
                     $("#materialProduct").text(materialProduct);
                     $("#grandTotalProduct").text(numeral(productPrice).format('$0,0.00'));
 //End Product Information
+
+                    $("#addToCart").click(function () {
+                        var v = $.ajax({
+                            url: "/g01jewelap/cart",
+                             data: {productName: cartProductName, diamond: cartDiamond, metal: cartMetal
+                                , gemstone: cartGemstone, price: cartPrice,
+                            width:product.detailView.width, weight:product.detailView.weightProduct},
+                            type: "post",
+                            dataType: "json"
+                        });
+                        v.done(function (data) {
+                            
+                          if(data === "addFail")
+                          {
+                              showToast("Add Product Fail !!!");
+                          }else
+                          {
+                              showToast("Add Product Success")
+                          }
+                        });
+                        v.fail(function (xhr, status) {
+                            alert("Status: " + status);
+                        });
+                    });
+
+
                     $('.slider-for').slick({
                         slidesToShow: 1,
                         slidesToScroll: 1,
