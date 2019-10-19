@@ -38,6 +38,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")})
 public class Product implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
+    private List<InvoiceDetail> invoiceDetailList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
+    private List<Shoppingcart> shoppingcartList;
+    @OneToMany(mappedBy = "productID")
+    private List<Discount> discountList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -333,6 +340,30 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Product[ id=" + id + " ]";
+    }
+
+    public List<InvoiceDetail> getInvoiceDetailList() {
+        return invoiceDetailList;
+    }
+
+    public void setInvoiceDetailList(List<InvoiceDetail> invoiceDetailList) {
+        this.invoiceDetailList = invoiceDetailList;
+    }
+
+    public List<Shoppingcart> getShoppingcartList() {
+        return shoppingcartList;
+    }
+
+    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
+        this.shoppingcartList = shoppingcartList;
+    }
+
+    public List<Discount> getDiscountList() {
+        return discountList;
+    }
+
+    public void setDiscountList(List<Discount> discountList) {
+        this.discountList = discountList;
     }
     
 }

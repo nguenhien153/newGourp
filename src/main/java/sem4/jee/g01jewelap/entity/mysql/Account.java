@@ -35,6 +35,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")})
 public class Account implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
+    private List<PayInfor> payInforList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
+    private List<Shoppingcart> shoppingcartList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
+    private List<Invoice> invoiceList;
+
     private static final long serialVersionUID = 61L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -261,6 +268,30 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Account[ accountId=" + accountId + " ]";
+    }
+
+    public List<PayInfor> getPayInforList() {
+        return payInforList;
+    }
+
+    public void setPayInforList(List<PayInfor> payInforList) {
+        this.payInforList = payInforList;
+    }
+
+    public List<Shoppingcart> getShoppingcartList() {
+        return shoppingcartList;
+    }
+
+    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
+        this.shoppingcartList = shoppingcartList;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
     }
     
 }

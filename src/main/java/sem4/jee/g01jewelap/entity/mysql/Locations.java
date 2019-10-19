@@ -7,7 +7,9 @@ package sem4.jee.g01jewelap.entity.mysql;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,6 +34,11 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Locations.findAll", query = "SELECT l FROM Locations l")})
 public class Locations implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
+    private List<Shoppingcart> shoppingcartList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
+    private List<Invoice> invoiceList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -258,6 +266,22 @@ public class Locations implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Locations[ id=" + id + " ]";
+    }
+
+    public List<Shoppingcart> getShoppingcartList() {
+        return shoppingcartList;
+    }
+
+    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
+        this.shoppingcartList = shoppingcartList;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
     }
     
 }
