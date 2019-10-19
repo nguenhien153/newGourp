@@ -17,21 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author TrangNguyen
+ * @author nguen
  */
 @Entity
 @Table(name = "slide")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Slide.findAll", query = "SELECT s FROM Slide s")
-    , @NamedQuery(name = "Slide.findById", query = "SELECT s FROM Slide s WHERE s.id = :id")
-    , @NamedQuery(name = "Slide.findBySlideUrl", query = "SELECT s FROM Slide s WHERE s.slideUrl = :slideUrl")
-    , @NamedQuery(name = "Slide.findByIsShow", query = "SELECT s FROM Slide s WHERE s.isShow = :isShow")
-    , @NamedQuery(name = "Slide.findByOrdinal", query = "SELECT s FROM Slide s WHERE s.ordinal = :ordinal")})
+    @NamedQuery(name = "Slide.findAll", query = "SELECT s FROM Slide s")})
 public class Slide implements Serializable {
 
     private static final long serialVersionUID = 1L;

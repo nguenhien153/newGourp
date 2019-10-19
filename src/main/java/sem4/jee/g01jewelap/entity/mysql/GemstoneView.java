@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,13 +31,11 @@ public class GemstoneView implements Serializable {
     @Column(name = "product_name")
     private String productName;
     @Size(max = 50)
-    @Id
     @Column(name = "gemstone_type")
     private String gemstoneType;
-    @Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "rate")
     private BigDecimal rate;
-    @Id
     @Column(name = "price")
     private Double price;
     @Column(name = "total_weight")
@@ -94,5 +91,5 @@ public class GemstoneView implements Serializable {
     public void setTotalWeight(Double totalWeight) {
         this.totalWeight = totalWeight;
     }
-
+    
 }

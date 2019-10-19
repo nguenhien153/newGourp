@@ -35,9 +35,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n")})
 public class Notification implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
-    private List<AccountNotification> accountNotificationList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,6 +73,8 @@ public class Notification implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "type")
     private String type;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
+    private List<AccountNotification> accountNotificationList;
 
     public Notification() {
     }
@@ -157,6 +156,14 @@ public class Notification implements Serializable {
         this.type = type;
     }
 
+    public List<AccountNotification> getAccountNotificationList() {
+        return accountNotificationList;
+    }
+
+    public void setAccountNotificationList(List<AccountNotification> accountNotificationList) {
+        this.accountNotificationList = accountNotificationList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -180,14 +187,6 @@ public class Notification implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Notification[ id=" + id + " ]";
-    }
-
-    public List<AccountNotification> getAccountNotificationList() {
-        return accountNotificationList;
-    }
-
-    public void setAccountNotificationList(List<AccountNotification> accountNotificationList) {
-        this.accountNotificationList = accountNotificationList;
     }
     
 }

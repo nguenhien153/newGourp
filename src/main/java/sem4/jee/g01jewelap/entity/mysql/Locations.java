@@ -35,11 +35,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Locations.findAll", query = "SELECT l FROM Locations l")})
 public class Locations implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
-    private List<Shoppingcart> shoppingcartList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
-    private List<Invoice> invoiceList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,6 +103,10 @@ public class Locations implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "status")
     private String status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
+    private List<Shoppingcart> shoppingcartList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationsID")
+    private List<Invoice> invoiceList;
 
     public Locations() {
     }
@@ -243,6 +242,22 @@ public class Locations implements Serializable {
         this.status = status;
     }
 
+    public List<Shoppingcart> getShoppingcartList() {
+        return shoppingcartList;
+    }
+
+    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
+        this.shoppingcartList = shoppingcartList;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -266,22 +281,6 @@ public class Locations implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Locations[ id=" + id + " ]";
-    }
-
-    public List<Shoppingcart> getShoppingcartList() {
-        return shoppingcartList;
-    }
-
-    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
-        this.shoppingcartList = shoppingcartList;
-    }
-
-    public List<Invoice> getInvoiceList() {
-        return invoiceList;
-    }
-
-    public void setInvoiceList(List<Invoice> invoiceList) {
-        this.invoiceList = invoiceList;
     }
     
 }

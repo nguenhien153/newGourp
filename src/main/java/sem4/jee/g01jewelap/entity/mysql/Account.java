@@ -35,14 +35,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")})
 public class Account implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
-    private List<PayInfor> payInforList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
-    private List<Shoppingcart> shoppingcartList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
-    private List<Invoice> invoiceList;
-
-    private static final long serialVersionUID = 61L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -98,12 +91,16 @@ public class Account implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "status")
     private String status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountName")
-    private List<Address> addressList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
+    private List<PayInfor> payInforList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountName")
     private List<AccountRole> accountRoleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountName")
+    private List<Address> addressList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountName")
     private List<AccountNotification> accountNotificationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountID")
+    private List<Invoice> invoiceList;
 
     public Account() {
     }
@@ -221,12 +218,12 @@ public class Account implements Serializable {
         this.status = status;
     }
 
-    public List<Address> getAddressList() {
-        return addressList;
+    public List<PayInfor> getPayInforList() {
+        return payInforList;
     }
 
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
+    public void setPayInforList(List<PayInfor> payInforList) {
+        this.payInforList = payInforList;
     }
 
     public List<AccountRole> getAccountRoleList() {
@@ -237,12 +234,28 @@ public class Account implements Serializable {
         this.accountRoleList = accountRoleList;
     }
 
+    public List<Address> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
+    }
+
     public List<AccountNotification> getAccountNotificationList() {
         return accountNotificationList;
     }
 
     public void setAccountNotificationList(List<AccountNotification> accountNotificationList) {
         this.accountNotificationList = accountNotificationList;
+    }
+
+    public List<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(List<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
     }
 
     @Override
@@ -268,30 +281,6 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Account[ accountId=" + accountId + " ]";
-    }
-
-    public List<PayInfor> getPayInforList() {
-        return payInforList;
-    }
-
-    public void setPayInforList(List<PayInfor> payInforList) {
-        this.payInforList = payInforList;
-    }
-
-    public List<Shoppingcart> getShoppingcartList() {
-        return shoppingcartList;
-    }
-
-    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
-        this.shoppingcartList = shoppingcartList;
-    }
-
-    public List<Invoice> getInvoiceList() {
-        return invoiceList;
-    }
-
-    public void setInvoiceList(List<Invoice> invoiceList) {
-        this.invoiceList = invoiceList;
     }
     
 }

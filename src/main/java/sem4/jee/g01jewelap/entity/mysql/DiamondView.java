@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,14 +28,12 @@ public class DiamondView implements Serializable {
     @Size(max = 50)
     @Column(name = "product_name")
     private String productName;
-    @Id
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "rate")
     private BigDecimal rate;
     @Size(max = 50)
-    @Id
     @Column(name = "diamond_type")
     private String diamondType;
-    @Id
     @Column(name = "total_weight")
     private Double totalWeight;
     @Column(name = "price")
@@ -84,5 +81,5 @@ public class DiamondView implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
-
+    
 }

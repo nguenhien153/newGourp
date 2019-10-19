@@ -20,22 +20,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author TrangNguyen
+ * @author nguen
  */
 @Entity
 @Table(name = "blog")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Blog.findAll", query = "SELECT b FROM Blog b")
-    , @NamedQuery(name = "Blog.findById", query = "SELECT b FROM Blog b WHERE b.id = :id")
-    , @NamedQuery(name = "Blog.findByDateCreated", query = "SELECT b FROM Blog b WHERE b.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Blog.findByCreatedby", query = "SELECT b FROM Blog b WHERE b.createdby = :createdby")
-    , @NamedQuery(name = "Blog.findByTitle", query = "SELECT b FROM Blog b WHERE b.title = :title")
-    , @NamedQuery(name = "Blog.findByImageUrl", query = "SELECT b FROM Blog b WHERE b.imageUrl = :imageUrl")})
+    @NamedQuery(name = "Blog.findAll", query = "SELECT b FROM Blog b")})
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -62,6 +62,8 @@ public class MetalOption implements Serializable {
     @NotNull
     @Column(name = "default_option")
     private boolean defaultOption;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "metalOptionId")
+    private List<Stock> stockList;
     @JoinColumn(name = "image_display", referencedColumnName = "id")
     @ManyToOne
     private Image imageDisplay;
@@ -71,8 +73,6 @@ public class MetalOption implements Serializable {
     @JoinColumn(name = "product_name", referencedColumnName = "product_name")
     @ManyToOne(optional = false)
     private Product productName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "metalOptionId")
-    private List<Stock> stockList;
 
     public MetalOption() {
     }
@@ -136,6 +136,14 @@ public class MetalOption implements Serializable {
         this.defaultOption = defaultOption;
     }
 
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
+    }
+
     public Image getImageDisplay() {
         return imageDisplay;
     }
@@ -158,14 +166,6 @@ public class MetalOption implements Serializable {
 
     public void setProductName(Product productName) {
         this.productName = productName;
-    }
-
-    public List<Stock> getStockList() {
-        return stockList;
-    }
-
-    public void setStockList(List<Stock> stockList) {
-        this.stockList = stockList;
     }
 
     @Override

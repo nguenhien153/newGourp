@@ -39,9 +39,7 @@ public class Shoppingcart implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @Column(name = "size")
     private String size;
     @Basic(optional = false)
@@ -81,9 +79,21 @@ public class Shoppingcart implements Serializable {
     @Column(name = "deleted_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedAt;
-    @JoinColumn(name = "accountID", referencedColumnName = "account_id")
-    @ManyToOne(optional = false)
-    private Account accountID;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "diamond")
+    private String diamond;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "metal")
+    private String metal;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "gemstone")
+    private String gemstone;
     @JoinColumn(name = "discountID", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Discount discountID;
@@ -101,9 +111,8 @@ public class Shoppingcart implements Serializable {
         this.id = id;
     }
 
-    public Shoppingcart(Integer id, String size, float weight, String type, int quantity, float price, Date buyDate, boolean whishListStatus, Date createdAt) {
+    public Shoppingcart(Integer id, float weight, String type, int quantity, float price, Date buyDate, boolean whishListStatus, Date createdAt, String diamond, String metal, String gemstone) {
         this.id = id;
-        this.size = size;
         this.weight = weight;
         this.type = type;
         this.quantity = quantity;
@@ -111,6 +120,9 @@ public class Shoppingcart implements Serializable {
         this.buyDate = buyDate;
         this.whishListStatus = whishListStatus;
         this.createdAt = createdAt;
+        this.diamond = diamond;
+        this.metal = metal;
+        this.gemstone = gemstone;
     }
 
     public Integer getId() {
@@ -201,12 +213,28 @@ public class Shoppingcart implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public Account getAccountID() {
-        return accountID;
+    public String getDiamond() {
+        return diamond;
     }
 
-    public void setAccountID(Account accountID) {
-        this.accountID = accountID;
+    public void setDiamond(String diamond) {
+        this.diamond = diamond;
+    }
+
+    public String getMetal() {
+        return metal;
+    }
+
+    public void setMetal(String metal) {
+        this.metal = metal;
+    }
+
+    public String getGemstone() {
+        return gemstone;
+    }
+
+    public void setGemstone(String gemstone) {
+        this.gemstone = gemstone;
     }
 
     public Discount getDiscountID() {

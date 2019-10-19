@@ -38,13 +38,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")})
 public class Product implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
-    private List<InvoiceDetail> invoiceDetailList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
-    private List<Shoppingcart> shoppingcartList;
-    @OneToMany(mappedBy = "productID")
-    private List<Discount> discountList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,6 +94,14 @@ public class Product implements Serializable {
     @Size(max = 65535)
     @Column(name = "tag")
     private String tag;
+    @OneToMany(mappedBy = "productID")
+    private List<Discount> discountList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
+    private List<Gemstone> gemstoneList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
+    private List<GemstoneOption> gemstoneOptionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
+    private List<Stock> stockList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
     private List<Image> imageList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
@@ -111,13 +112,11 @@ public class Product implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
     private List<Metal> metalList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
-    private List<Gemstone> gemstoneList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
-    private List<GemstoneOption> gemstoneOptionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
     private List<Diamond> diamondList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
-    private List<Stock> stockList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
+    private List<InvoiceDetail> invoiceDetailList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productID")
+    private List<Shoppingcart> shoppingcartList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productName")
     private List<DiamondOption> diamondOptionList;
 
@@ -245,6 +244,38 @@ public class Product implements Serializable {
         this.tag = tag;
     }
 
+    public List<Discount> getDiscountList() {
+        return discountList;
+    }
+
+    public void setDiscountList(List<Discount> discountList) {
+        this.discountList = discountList;
+    }
+
+    public List<Gemstone> getGemstoneList() {
+        return gemstoneList;
+    }
+
+    public void setGemstoneList(List<Gemstone> gemstoneList) {
+        this.gemstoneList = gemstoneList;
+    }
+
+    public List<GemstoneOption> getGemstoneOptionList() {
+        return gemstoneOptionList;
+    }
+
+    public void setGemstoneOptionList(List<GemstoneOption> gemstoneOptionList) {
+        this.gemstoneOptionList = gemstoneOptionList;
+    }
+
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
+    }
+
     public List<Image> getImageList() {
         return imageList;
     }
@@ -277,22 +308,6 @@ public class Product implements Serializable {
         this.metalList = metalList;
     }
 
-    public List<Gemstone> getGemstoneList() {
-        return gemstoneList;
-    }
-
-    public void setGemstoneList(List<Gemstone> gemstoneList) {
-        this.gemstoneList = gemstoneList;
-    }
-
-    public List<GemstoneOption> getGemstoneOptionList() {
-        return gemstoneOptionList;
-    }
-
-    public void setGemstoneOptionList(List<GemstoneOption> gemstoneOptionList) {
-        this.gemstoneOptionList = gemstoneOptionList;
-    }
-
     public List<Diamond> getDiamondList() {
         return diamondList;
     }
@@ -301,12 +316,20 @@ public class Product implements Serializable {
         this.diamondList = diamondList;
     }
 
-    public List<Stock> getStockList() {
-        return stockList;
+    public List<InvoiceDetail> getInvoiceDetailList() {
+        return invoiceDetailList;
     }
 
-    public void setStockList(List<Stock> stockList) {
-        this.stockList = stockList;
+    public void setInvoiceDetailList(List<InvoiceDetail> invoiceDetailList) {
+        this.invoiceDetailList = invoiceDetailList;
+    }
+
+    public List<Shoppingcart> getShoppingcartList() {
+        return shoppingcartList;
+    }
+
+    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
+        this.shoppingcartList = shoppingcartList;
     }
 
     public List<DiamondOption> getDiamondOptionList() {
@@ -340,30 +363,6 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "sem4.jee.g01jewelap.entity.mysql.Product[ id=" + id + " ]";
-    }
-
-    public List<InvoiceDetail> getInvoiceDetailList() {
-        return invoiceDetailList;
-    }
-
-    public void setInvoiceDetailList(List<InvoiceDetail> invoiceDetailList) {
-        this.invoiceDetailList = invoiceDetailList;
-    }
-
-    public List<Shoppingcart> getShoppingcartList() {
-        return shoppingcartList;
-    }
-
-    public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
-        this.shoppingcartList = shoppingcartList;
-    }
-
-    public List<Discount> getDiscountList() {
-        return discountList;
-    }
-
-    public void setDiscountList(List<Discount> discountList) {
-        this.discountList = discountList;
     }
     
 }

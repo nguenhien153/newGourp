@@ -54,13 +54,13 @@ public class Discount implements Serializable {
     @Column(name = "dateModify")
     @Temporal(TemporalType.DATE)
     private Date dateModify;
+    @JoinColumn(name = "productID", referencedColumnName = "id")
+    @ManyToOne
+    private Product productID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "discountID")
     private List<InvoiceDetail> invoiceDetailList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "discountID")
     private List<Shoppingcart> shoppingcartList;
-    @JoinColumn(name = "productID", referencedColumnName = "id")
-    @ManyToOne
-    private Product productID;
 
     public Discount() {
     }
@@ -117,6 +117,14 @@ public class Discount implements Serializable {
         this.dateModify = dateModify;
     }
 
+    public Product getProductID() {
+        return productID;
+    }
+
+    public void setProductID(Product productID) {
+        this.productID = productID;
+    }
+
     public List<InvoiceDetail> getInvoiceDetailList() {
         return invoiceDetailList;
     }
@@ -131,14 +139,6 @@ public class Discount implements Serializable {
 
     public void setShoppingcartList(List<Shoppingcart> shoppingcartList) {
         this.shoppingcartList = shoppingcartList;
-    }
-
-    public Product getProductID() {
-        return productID;
-    }
-
-    public void setProductID(Product productID) {
-        this.productID = productID;
     }
 
     @Override

@@ -19,26 +19,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author TrangNguyen
+ * @author nguen
  */
 @Entity
 @Table(name = "review")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r")
-    , @NamedQuery(name = "Review.findById", query = "SELECT r FROM Review r WHERE r.id = :id")
-    , @NamedQuery(name = "Review.findByProductID", query = "SELECT r FROM Review r WHERE r.productID = :productID")
-    , @NamedQuery(name = "Review.findByAccountId", query = "SELECT r FROM Review r WHERE r.accountId = :accountId")
-    , @NamedQuery(name = "Review.findByTitle", query = "SELECT r FROM Review r WHERE r.title = :title")
-    , @NamedQuery(name = "Review.findByRating", query = "SELECT r FROM Review r WHERE r.rating = :rating")
-    , @NamedQuery(name = "Review.findByDateCreated", query = "SELECT r FROM Review r WHERE r.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Review.findByDateModify", query = "SELECT r FROM Review r WHERE r.dateModify = :dateModify")})
+    @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r")})
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,15 +55,11 @@ public class Review implements Serializable {
     @Size(max = 65535)
     @Column(name = "Response")
     private String response;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "DateCreated")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateCreated;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "DateModify")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dateModify;
 
     public Review() {
@@ -81,12 +67,6 @@ public class Review implements Serializable {
 
     public Review(Integer id) {
         this.id = id;
-    }
-
-    public Review(Integer id, Date dateCreated, Date dateModify) {
-        this.id = id;
-        this.dateCreated = dateCreated;
-        this.dateModify = dateModify;
     }
 
     public Integer getId() {
@@ -183,7 +163,7 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "sem4.jee.g01jewelap.entity.Review[ id=" + id + " ]";
+        return "sem4.jee.g01jewelap.entity.mysql.Review[ id=" + id + " ]";
     }
     
 }

@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -42,20 +41,17 @@ public class MetalView implements Serializable {
     @Column(name = "default_option")
     private Boolean defaultOption;
     @Size(max = 50)
-    @Id
     @Column(name = "metal_type")
     private String metalType;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Id
     @Size(min = 1, max = 65535)
     @Column(name = "sub_image")
     private String subImage;
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Id
     @Size(min = 1, max = 65535)
     @Column(name = "main_image")
     private String mainImage;
@@ -182,5 +178,5 @@ public class MetalView implements Serializable {
     public void setImage4(String image4) {
         this.image4 = image4;
     }
-
+    
 }

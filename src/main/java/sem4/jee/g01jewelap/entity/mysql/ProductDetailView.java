@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -20,13 +21,13 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "product_detail_view")
-
+@NamedQueries({
+    @NamedQuery(name = "ProductDetailView.findAll", query = "SELECT p FROM ProductDetailView p")})
 public class ProductDetailView implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Size(max = 50)
     @Column(name = "product_name")
-    @Id
     private String productName;
     @Size(max = 50)
     @Column(name = "category_name")

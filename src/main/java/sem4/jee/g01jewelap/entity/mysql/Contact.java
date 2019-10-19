@@ -20,24 +20,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author TrangNguyen
+ * @author nguen
  */
 @Entity
 @Table(name = "contact")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c")
-    , @NamedQuery(name = "Contact.findById", query = "SELECT c FROM Contact c WHERE c.id = :id")
-    , @NamedQuery(name = "Contact.findByName", query = "SELECT c FROM Contact c WHERE c.name = :name")
-    , @NamedQuery(name = "Contact.findByEmail", query = "SELECT c FROM Contact c WHERE c.email = :email")
-    , @NamedQuery(name = "Contact.findByTitle", query = "SELECT c FROM Contact c WHERE c.title = :title")
-    , @NamedQuery(name = "Contact.findByCreatedby", query = "SELECT c FROM Contact c WHERE c.createdby = :createdby")
-    , @NamedQuery(name = "Contact.findByDateCreated", query = "SELECT c FROM Contact c WHERE c.dateCreated = :dateCreated")
-    , @NamedQuery(name = "Contact.findByDateModify", query = "SELECT c FROM Contact c WHERE c.dateModify = :dateModify")})
+    @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c")})
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
