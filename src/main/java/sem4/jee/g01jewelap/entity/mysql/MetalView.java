@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,7 +32,7 @@ public class MetalView implements Serializable {
     @Size(max = 50)
     @Column(name = "product_name")
     private String productName;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
     @Column(name = "price")
     private Double price;
     @Column(name = "weight")
@@ -41,6 +42,7 @@ public class MetalView implements Serializable {
     @Column(name = "default_option")
     private Boolean defaultOption;
     @Size(max = 50)
+    @Id
     @Column(name = "metal_type")
     private String metalType;
     @Basic(optional = false)
@@ -178,5 +180,5 @@ public class MetalView implements Serializable {
     public void setImage4(String image4) {
         this.image4 = image4;
     }
-    
+
 }
