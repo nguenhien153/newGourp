@@ -1,4 +1,14 @@
-create database jewelap;
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
+--
+
+--
+-- Cơ sở dữ liệu: `jewelap`
+--
+
+-- --------------------------------------------------------
+
 --
 -- Cấu trúc bảng cho bảng `account`
 --
@@ -17,6 +27,15 @@ CREATE TABLE `account` (
   `modify_by` varchar(50) DEFAULT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Đang đổ dữ liệu cho bảng `account`
+--
+
+INSERT INTO `account` (`account_id`, `gmail`, `password`, `full_name`, `gender`, `phone`, `dob`, `date_create`, `date_modify`, `create_by`, `modify_by`, `status`) VALUES
+(1, 'hienho@gmail.com', '123456', 'test', 1, 222222222, '2019-10-17', '2019-10-17', NULL, 'test', NULL, 'test'),
+(5, 'hienho01633@gmail.com', 'Anyblue123', 'ww ww', 1, 222222222, '2019-10-18', '2019-10-18', NULL, 'ww ww', NULL, 'new'),
+(6, 'nguenhien153@gmail.com', 'Anyblue123', 'Nguyen Hien', 0, 222222222, '2019-10-18', '2019-10-18', NULL, 'Nguyen Hien', NULL, 'new');
 
 -- --------------------------------------------------------
 
@@ -51,6 +70,17 @@ CREATE TABLE `account_role` (
   `create_by` varchar(50) NOT NULL,
   `modify_by` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Đang đổ dữ liệu cho bảng `account_role`
+--
+
+INSERT INTO `account_role` (`id`, `account_name`, `role_name`, `date_create`, `date_modify`, `create_by`, `modify_by`) VALUES
+(1, 'hienho@gmail.com', 'admin', '2019-10-18', NULL, 'test', NULL),
+(2, 'hienho@gmail.com', 'member', '2019-10-13', NULL, 'test', NULL),
+(3, 'hienho@gmail.com', 'support', '2019-10-13', NULL, 'test', NULL),
+(4, 'hienho01633@gmail.com', 'member', '2019-10-18', NULL, 'ww ww', NULL),
+(5, 'nguenhien153@gmail.com', 'member', '2019-10-18', NULL, 'Nguyen Hien', NULL);
 
 -- --------------------------------------------------------
 
@@ -109,7 +139,9 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `date_create`, `date_modify`, `create_by`, `modify_by`, `category_name`) VALUES
-(1, '2019-10-09', NULL, 'test', NULL, 'Ring');
+(1, '2019-10-09', NULL, 'test', NULL, 'Ring'),
+(2, '2019-10-19', NULL, '1', NULL, 'Bangle'),
+(4, '2019-10-19', NULL, '1', NULL, 'Jeeeee');
 
 -- --------------------------------------------------------
 
@@ -346,6 +378,49 @@ INSERT INTO `image` (`id`, `date_create`, `date_modify`, `create_by`, `modify_by
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `invoice`
+--
+
+CREATE TABLE `invoice` (
+  `id` int(11) NOT NULL,
+  `accountID` int(11) NOT NULL,
+  `invoiceDetailID` int(11) NOT NULL,
+  `locationsID` int(11) NOT NULL,
+  `payInforID` int(11) NOT NULL,
+  `status` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+  `pay_method` varchar(100) COLLATE utf8_vietnamese_ci NOT NULL,
+  `numberCheck_invoice` int(11) NOT NULL,
+  `cancel_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cancel_reason` varchar(255) COLLATE utf8_vietnamese_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci COMMENT='tạo bảng hóa đơn';
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `invoice_detail`
+--
+
+CREATE TABLE `invoice_detail` (
+  `id` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `size` varchar(10) COLLATE utf8_vietnamese_ci NOT NULL,
+  `weight` float NOT NULL,
+  `type` varchar(50) COLLATE utf8_vietnamese_ci NOT NULL,
+  `price` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `discountID` int(11) NOT NULL,
+  `amount` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci COMMENT='tạo bảng chi tiết hóa đơn';
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `locations`
 --
 
@@ -505,6 +580,26 @@ CREATE TABLE `notification` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `pay_infor`
+--
+
+CREATE TABLE `pay_infor` (
+  `id` int(11) NOT NULL,
+  `accountID` int(11) NOT NULL,
+  `custNameInfor` varchar(200) COLLATE utf8_vietnamese_ci DEFAULT NULL,
+  `custAddInfor` varchar(255) COLLATE utf8_vietnamese_ci DEFAULT NULL,
+  `custPhoneInfor` int(15) DEFAULT NULL,
+  `userBankInfor` varchar(200) COLLATE utf8_vietnamese_ci DEFAULT NULL,
+  `numberCardInfor` varchar(50) COLLATE utf8_vietnamese_ci DEFAULT NULL,
+  `cardOpenDate` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci COMMENT='tạo bảng nhập thông tin thanh toán khách hàng';
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `product`
 --
 
@@ -643,6 +738,39 @@ CREATE TABLE `role` (
   `create_by` varchar(50) NOT NULL,
   `modify_by` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Đang đổ dữ liệu cho bảng `role`
+--
+
+INSERT INTO `role` (`role_id`, `name`, `date_create`, `date_modify`, `create_by`, `modify_by`) VALUES
+(1, 'member', '2019-10-18', NULL, 'test', NULL),
+(2, 'admin', '2019-10-13', NULL, 'test', NULL),
+(3, 'support', '2019-10-18', NULL, 'test', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `shoppingcart`
+--
+
+CREATE TABLE `shoppingcart` (
+  `id` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `accountID` int(11) NOT NULL,
+  `locationsID` int(11) NOT NULL,
+  `discountID` int(11) NOT NULL,
+  `size` varchar(10) COLLATE utf8_vietnamese_ci NOT NULL,
+  `weight` float NOT NULL,
+  `type` varchar(50) COLLATE utf8_vietnamese_ci NOT NULL,
+  `quantity` int(10) NOT NULL,
+  `price` float NOT NULL,
+  `buy_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `whishListStatus` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_vietnamese_ci COMMENT='tạo bảng lưu trữ đơn đặt hàng';
 
 -- --------------------------------------------------------
 
@@ -819,6 +947,24 @@ ALTER TABLE `image`
   ADD KEY `image_product` (`product_name`);
 
 --
+-- Chỉ mục cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice_account` (`accountID`),
+  ADD KEY `invoice_invoiceDetail` (`invoiceDetailID`),
+  ADD KEY `invoice_location` (`locationsID`),
+  ADD KEY `invoice_payInfor` (`payInforID`);
+
+--
+-- Chỉ mục cho bảng `invoice_detail`
+--
+ALTER TABLE `invoice_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `InvoiceDetail_product` (`productID`),
+  ADD KEY `InvoiceDetail_discount` (`discountID`);
+
+--
 -- Chỉ mục cho bảng `locations`
 --
 ALTER TABLE `locations`
@@ -854,6 +1000,13 @@ ALTER TABLE `notification`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `pay_infor`
+--
+ALTER TABLE `pay_infor`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account_payInfor` (`accountID`);
+
+--
 -- Chỉ mục cho bảng `product`
 --
 ALTER TABLE `product`
@@ -883,6 +1036,16 @@ ALTER TABLE `role`
   ADD UNIQUE KEY `name` (`name`);
 
 --
+-- Chỉ mục cho bảng `shoppingcart`
+--
+ALTER TABLE `shoppingcart`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ShoppingCart_product` (`productID`),
+  ADD KEY `ShoppingCart_account` (`accountID`),
+  ADD KEY `ShoppingCart_location` (`locationsID`),
+  ADD KEY `ShoppingCart_discount` (`discountID`);
+
+--
 -- Chỉ mục cho bảng `slide`
 --
 ALTER TABLE `slide`
@@ -906,7 +1069,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `account_notification`
@@ -918,7 +1081,7 @@ ALTER TABLE `account_notification`
 -- AUTO_INCREMENT cho bảng `account_role`
 --
 ALTER TABLE `account_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `address`
@@ -936,7 +1099,7 @@ ALTER TABLE `blog`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `contact`
@@ -981,6 +1144,18 @@ ALTER TABLE `image`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `invoice_detail`
+--
+ALTER TABLE `invoice_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `locations`
 --
 ALTER TABLE `locations`
@@ -1011,6 +1186,12 @@ ALTER TABLE `notification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `pay_infor`
+--
+ALTER TABLE `pay_infor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
@@ -1032,7 +1213,13 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT cho bảng `role`
 --
 ALTER TABLE `role`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `shoppingcart`
+--
+ALTER TABLE `shoppingcart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `slide`
@@ -1107,6 +1294,22 @@ ALTER TABLE `image`
   ADD CONSTRAINT `image_product` FOREIGN KEY (`product_name`) REFERENCES `product` (`product_name`) ON UPDATE CASCADE;
 
 --
+-- Các ràng buộc cho bảng `invoice`
+--
+ALTER TABLE `invoice`
+  ADD CONSTRAINT `invoice_account` FOREIGN KEY (`accountID`) REFERENCES `account` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice_invoiceDetail` FOREIGN KEY (`invoiceDetailID`) REFERENCES `invoice_detail` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice_location` FOREIGN KEY (`locationsID`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice_payInfor` FOREIGN KEY (`payInforID`) REFERENCES `pay_infor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `invoice_detail`
+--
+ALTER TABLE `invoice_detail`
+  ADD CONSTRAINT `InvoiceDetail_discount` FOREIGN KEY (`discountID`) REFERENCES `discount` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `InvoiceDetail_product` FOREIGN KEY (`productID`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Các ràng buộc cho bảng `metal`
 --
 ALTER TABLE `metal`
@@ -1121,6 +1324,12 @@ ALTER TABLE `metal_option`
   ADD CONSTRAINT `metal_option_product` FOREIGN KEY (`product_name`) REFERENCES `product` (`product_name`) ON UPDATE CASCADE;
 
 --
+-- Các ràng buộc cho bảng `pay_infor`
+--
+ALTER TABLE `pay_infor`
+  ADD CONSTRAINT `account_payInfor` FOREIGN KEY (`accountID`) REFERENCES `account` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Các ràng buộc cho bảng `product`
 --
 ALTER TABLE `product`
@@ -1133,6 +1342,15 @@ ALTER TABLE `product_type`
   ADD CONSTRAINT `product_type_category` FOREIGN KEY (`category_name`) REFERENCES `category` (`category_name`) ON UPDATE CASCADE;
 
 --
+-- Các ràng buộc cho bảng `shoppingcart`
+--
+ALTER TABLE `shoppingcart`
+  ADD CONSTRAINT `ShoppingCart_account` FOREIGN KEY (`accountID`) REFERENCES `account` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ShoppingCart_discount` FOREIGN KEY (`discountID`) REFERENCES `discount` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ShoppingCart_location` FOREIGN KEY (`locationsID`) REFERENCES `locations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ShoppingCart_product` FOREIGN KEY (`productID`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Các ràng buộc cho bảng `stock`
 --
 ALTER TABLE `stock`
@@ -1140,112 +1358,4 @@ ALTER TABLE `stock`
   ADD CONSTRAINT `stock_gemstone_option` FOREIGN KEY (`gemstone_option_id`) REFERENCES `gemstone_option` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `stock_metal_option` FOREIGN KEY (`metal_option_id`) REFERENCES `metal_option` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `stock_product` FOREIGN KEY (`product_name`) REFERENCES `product` (`product_name`) ON UPDATE CASCADE;
-
-
------------------------------------Viet_Start--------------------------------------------------
----- tạo bảng ShoppingCart-----
-drop table ShoppingCart;
-create table ShoppingCart(
-    id int generated always as identity,
-    productID int not null,
-    accountID int not null,
-    locationsID int not null,
-    discountID int,
-    size varchar(10) not null,
-    weight float not null,
-    type varchar(50) not null,
-    quantity int not null,
-    price float not null,
-    buy_date timestamp,
-    whishListStatus boolean default('true'),
-    created_at timestamp,
-    update_at timestamp,
-    deleted_at timestamp,
-    primary key(id),
-    constraint FK_ShoppingCart_Product foreign key(productID) references product(id),
-    constraint FK_ShoppingCart_Account foreign key(accountID) references account(account_id),
-    constraint FK_ShoppingCart_Locations foreign key(locationsID) references locations(id),
-    constraint FK_ShoppingCart_Discount foreign key(discountID) references discount(id)
-);
--- ---Insert giá trị cho bảng ShoppingCart-----
-insert into ShoppingCart(productID,accountID,locationsID,discountID,size,weight,type,quantity,price) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
-select * from ShoppingCart;
-
--- ---Tạo bảng chi tiết hóa đơn------
-drop table Invoice_detail;
-create table Invoice_detail(
-    id int generated always as identity,
-    productID int not null,
-    size varchar(10) not null,
-    weight float not null,
-    type varchar(50) not null,
-    price float not null,
-    quantity int not null,
-    discountID int,
-    amount float not null,
-    create_at timestamp,
-    update_at timestamp,
-    delete_at timestamp,
-    primary key(id),
-    constraint FK_Invoice_detail_Product foreign key(productID) references product(id),
-    constraint FK_Invoice_detail_Discount foreign key(discountID) references discount(id),
-);
--- ---Insert giá trị cho bảng chi tiết hóa đơn-----
-insert into Invoice_detail(productID,size,weight,type,price,quantity,discountID,amount) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
-select * from Invoice_detail;
-
--- ---tạo bảng hóa đơn-----
-drop table Invoice;
-create table Invoice(
-    id int generated always as identity,
-    accountID int not null,
-    invoiceDetailID int not null,
-    locationsID int not null,
-    payInforID int not null,
-    status varchar(100) not null,
-    pay_method varchar(100) not null,
-    numberCheck_invoice int,
-    cancel_date timestamp,
-    cancel_reason varchar(255),
-    create_at timestamp,
-    update_at timestamp,
-    delete_at timestamp,
-    primary key(id),
-    constraint FK_Invoice_Account foreign key(accountID) references account(account_id),
-    constraint FK_Invoice_InvoiceDetail foreign key(InvoiceDetailID) references Invoice_detail(id),
-    constraint FK_Invoice_Locations foreign key(locationsID) references locations(id),
-    constraint FK_Invoice_PayInforID foreign key(PayInforID) references Pay_infor(id),
-);
--- --Insert giá trị cho bảng hóa đơn----
-insert into Invoice(accountID,invoiceDetailID,locationsID,payInforID,status,pay_method,numberCheck_invoice,cancel_reason) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
-select * from Invoice;
-
--- ---tạo bảng thông tin thanh toán của khách hàng-----
-drop table Pay_infor;
-create table Pay_infor(
-    id int generated always as identity,
-    accountID int not null,
-    custNameInfor varchar(200),
-    custAddInfor varchar(255),
-    custPhoneInfor int,
-    userBankInfor varchar(200),
-    numberCardInfor varchar(50),
-    cardOpenDate date,
-    create_at timestamp,
-    update_at timestamp,
-    delete_at timestamp,
-    primary key(id),
-    constraint FK_Pay_infor_Customer foreign key(accountID) references account(account_id),
-);
--- ---Insert giá trị cho bảng thông tin thanh toán của khách hàng----
-insert into Pay_infor(accountID,custNameInfor,custAddInfor,custPhoneInfor,userBankInfor,numberCardInfor,cardOpenDate) values
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN'), 
-('ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN','ADMIN');
-select * from Pay_infor;
------------------------------------Viet_end--------------------------------------------------
+COMMIT;

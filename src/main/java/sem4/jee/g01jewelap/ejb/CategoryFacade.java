@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,15 @@ public class CategoryFacade extends AbstractFacade<Category> {
     public CategoryFacade() {
         super(Category.class);
     }
-    
+
+    public Boolean checkDupplicate(String categoryName) {
+        List<Category> categorys = em.createQuery("SELECT p FROM Category p WHERE p.categoryName = :name", Category.class)
+                .setParameter("name", categoryName)
+                .getResultList();
+        if (categoryName.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
