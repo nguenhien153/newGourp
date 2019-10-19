@@ -778,14 +778,22 @@
 
                     $("#addToCart").click(function () {
                         var v = $.ajax({
-                            url: "/g01jewelap/api-displayproduct",
+                            url: "/g01jewelap/cart",
+                             data: {productName: cartProductName, diamond: cartDiamond, metal: cartMetal
+                                , gemstone: cartGemstone, price: cartPrice,
+                            width:product.detailView.width, weight:product.detailView.weightProduct},
                             type: "post",
-                            contentType: "text/html; charset=UTF-8",
-                            data: {productName: cartProductName, diamond: cartDiamond, metal: cartMetal
-                                , gemstone: cartGemstone, price: cartPrice}
+                            dataType: "json"
                         });
                         v.done(function (data) {
-                            alert(data);
+                            
+                          if(data === "addFail")
+                          {
+                              showToast("Add Product Fail !!!");
+                          }else
+                          {
+                              showToast("Add Product Success")
+                          }
                         });
                         v.fail(function (xhr, status) {
                             alert("Status: " + status);
