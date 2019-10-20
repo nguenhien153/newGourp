@@ -6,8 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<c:url var="idCate" value="${id}"/>
+<c:url var="id" value="${id}"/>
 <c:url var="cateName" value="${categoryName}"/>
+<c:url var="typeName" value="${productTypeName}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -67,20 +68,20 @@
         </style>
     </head>
     <body id="page-top">
-        <%@include file="../../fragments/admin/navigation.jsp" %>
+        <%@include file="../../../fragments/admin/navigation.jsp" %>
 
 
 
         <div id="wrapper">
             <!-- Sidebar -->
-            <%@include file="../../fragments/admin/slidebar.jsp" %>
+            <%@include file="../../../fragments/admin/slidebar.jsp" %>
 
             <div id="content-wrapper">
                 <div class="container-fluid">
                     <div class="card mb-3">
                         <div class="card-header">
                             <i class="fas fa-table"></i>
-                            Category Table</div>
+                            Product Type Table</div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
@@ -88,6 +89,9 @@
                                         <tr>
                                             <th>
                                                 ID
+                                            </th>
+                                            <th>
+                                                Product Type Name
                                             </th>
                                             <th>
                                                 Category Name
@@ -110,6 +114,9 @@
                                         <tr>
                                             <th>
                                                 ID
+                                            </th>
+                                            <th>
+                                                Product Type Name
                                             </th>
                                             <th>
                                                 Category Name
@@ -135,7 +142,7 @@
                     </div>
 
                 </div>
-                <%@include file="../../fragments/admin/footer.jsp" %>
+                <%@include file="../../../fragments/admin/footer.jsp" %>
             </div>
             <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -149,14 +156,37 @@
                         <form method="post" action="" id="formInModal">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <c:if test="${not empty categoryName}">
+                                    <c:if test="${not empty categoryName || not empty productTypeName}">
                                         <div class="showError alert-danger text-center mb-4 rounded-pill">
-                                            <span class="text-danger align-middle">${CategoryNameDupplicateError}</span><br/>
-                                            <span class="text-danger align-middle">${categoryNameError}</span>
+                                            <span class="text-danger align-middle" style="font-weight: bold; list-style-type: noneo">
+                                                <ui>
+                                                    <c:if test="${not empty productTypeNameError}">
+                                                        <li>
+                                                            ${productTypeNameError} 
+                                                        </li>
+                                                    </c:if>
+                                                    <c:if test="${not empty productTypeNameDupplicateError}">
+                                                        <li>
+                                                            ${productTypeNameDupplicateError} 
+                                                        </li>
+                                                    </c:if>
+                                                    <c:if test="${not empty CategoryNameNotExist}">
+                                                        <li>
+                                                            ${CategoryNameNotExist} 
+                                                        </li>
+                                                    </c:if>
+                                                </ui>
+                                            </span>
                                         </div>
                                     </c:if>
-                                    <input type="hidden" value="${idCate}" name="id" id="idCate"/>
+                                    <input type="hidden" value="${id}" name="id" id="id"/>
                                     <div class="form-label-group">
+                                        <input type="text" id="inputProductTypeName" class="form-control" placeholder="Product Type Name"
+                                               required="required" maxlength="50" title="Not Contain Special Character. Lenght:4-50" name="productTypeName" minlength="4"
+                                               pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" value="${typeName}">
+                                        <label for="inputProductTypeName">Product Type Name</label>
+                                    </div>  
+                                    <div class="form-label-group mt-4">
                                         <input type="text" id="inputCategoryName" class="form-control" placeholder="Category Name"
                                                required="required" maxlength="50" title="Not Contain Special Character. Lenght:4-50" name="categoryName" minlength="4"
                                                pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" value="${cateName}">
@@ -184,7 +214,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="alert-warning rounded-pill text-center">
-                                <p id="textDeleteForm" style="font-weight: bold; font-size: 20px"></p>
+                                <p id="textDeleteForm" style="font-weight: bold; font-size: 16px"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -220,21 +250,21 @@
                 $(document).ready(function () {
                     var urlParams = new URLSearchParams(window.location.search);
 
-                    if ('${idCate}' === '')
+                    if ('${id}' === '')
                     {
                         if ('${cateName}' !== '') {
                             $("#formModal").modal("show");
                         }
-                        if ('${cateName}' === '')
+                        if ('${cateName}' === '' && '${typeName}' === '')
                         {
                             if (urlParams.get("success") !== null) {
-                                showToast("Create Category Success");
+                                showToast("Create Product Type Success");
                             }
                             if (urlParams.get("successEdit") !== null) {
-                                showToast("Remove Category Success");
+                                showToast("Edit Product Type Success");
                             }
                             if (urlParams.get("successRemove") !== null) {
-                                showToast("Remove Category Success");
+                                showToast("Remove Product Type Fail");
                             }
                             if (urlParams.get("failRemove") !== null) {
                                 showToast("Not found the id !!!");
@@ -244,13 +274,12 @@
                                 showToast("System Errors. Please Trying Againt !!!");
                             }
                         }
-
                     } else {
                         $("#formModal").modal("show");
                     }
 
                     var e = $.ajax({
-                        url: "/g01jewelap/api-category",
+                        url: "/g01jewelap/api-productype",
                         type: "get",
 //                    contentType: "application/json; charset=utf-8", //application/html;charset=utf-8
                         dataType: "JSON"
@@ -266,6 +295,13 @@
                                     "className": "align-middle",
                                     "render": function (id) {
                                         return id;
+                                    }
+                                },
+                                {
+                                    "data": "productTypeName",
+                                    "className": "align-middle",
+                                    "render": function (productTypeName) {
+                                        return productTypeName;
                                     }
                                 },
                                 {
@@ -314,10 +350,10 @@
                                     },
                                     action: function (e, dt, node, config) {
                                         $(".showError").hide();
-                                        $("#formInModal").attr("method", "post");
                                         $("#buttonForm").text("Create");
-                                        $("#idCate").val('');
+                                        $("#id").val('');
                                         $("#inputCategoryName").val('');
+                                        $("#inputProductTypeName").val('');
                                     }
                                 },
                                 {
@@ -325,13 +361,14 @@
                                     action: function (e, dt, node, config) {
                                         try {
                                             var cateName = dt.row({selected: true}).data().categoryName;
+                                            var typeName = dt.row({selected: true}).data().productTypeName;
                                             var id = dt.row({selected: true}).data().id;
                                             $(".showError").hide();
                                             $("#formModal").modal("show");
-                                            $("#idCate").val(id);
+                                            $("#id").val(id);
                                             $("#inputCategoryName").val(cateName);
+                                            $("#inputProductTypeName").val(typeName);
                                             $("#buttonForm").text("Edit");
-
                                         } catch (err) {
                                             alert('Please Select One Row');
                                         }
@@ -343,7 +380,7 @@
                                         try {
                                             var id = dt.row({selected: true}).data().id;
                                             $("#deleteModal").modal("show");
-                                            $("#textDeleteForm").text("Are you sure to remove the category with Id:" + id + " ?");
+                                            $("#textDeleteForm").text("Are you sure to remove the Product Type with Id:" + id + " ?");
                                             $("#idDeleteForm").val(id);
                                         } catch (err) {
                                             alert('Please Select One Row');

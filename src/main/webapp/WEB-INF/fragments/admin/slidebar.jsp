@@ -18,7 +18,7 @@
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <h6 class="dropdown-header" style="color: #0099ff; font-weight: bold;font-size: 18px">Manage Product:</h6>
             <a class="dropdown-item" href="<c:url value="/manager/category"/>">Category</a>
-            <a class="dropdown-item" href="register.html">Product Type</a>
+            <a class="dropdown-item" href="<c:url value="/manager/product-type"/>">Product Type</a>
             <a class="dropdown-item" href="forgot-password.html">Product</a>
             <div class="dropdown-divider"></div>
             <h6 class="dropdown-header">Other Pages:</h6>

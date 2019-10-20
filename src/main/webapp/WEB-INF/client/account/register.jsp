@@ -35,13 +35,13 @@
                 <div class="card-header">Register an Account</div>
                 <div class="card-body">
                     <c:if test="${not empty account}">
-                        <div class="alert-danger text-center mb-4">
+                        <div class="alert-danger text-center mb-4 rounded-pill">
                             <span class="text-danger">${gmailError}</span><br/>
-                            <span>${passwordError}</span><br/>
-                            <span>${fullnameError}</span><br/>
-                            <span>${dobError}</span><br/>
-                            <span>${confirmError}</span><br/>
-                            <span>${parseDateFalse}</span>
+                            <span class="text-danger">${passwordError}</span><br/>
+                            <span class="text-danger">${fullnameError}</span><br/>
+                            <span class="text-danger">${dobError}</span><br/>
+                            <span class="text-danger">${confirmError}</span><br/>
+                            <span class="text-danger">${parseDateFalse}</span>
                         </div>
                     </c:if>
                     <form method="post" action="/g01jewelap/register" id="formRegister">

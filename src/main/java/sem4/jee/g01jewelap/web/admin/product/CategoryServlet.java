@@ -31,29 +31,68 @@ public class CategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/admin/product/manage-category.jsp").forward(req, resp);
+        String id = req.getParameter("id");
+        if (null == id) {
+            req.getRequestDispatcher("/WEB-INF/admin/product/manage-category.jsp").forward(req, resp);
+        } else {
+            try {
+                if (null ==categoryFacade.find(Integer.valueOf(id))) {
+                     resp.sendRedirect(req.getContextPath() + "/manager/category?failRemove");
+                } else {
+                    categoryFacade.remove(categoryFacade.find(Integer.valueOf(id)));
+                    resp.sendRedirect(req.getContextPath() + "/manager/category?successRemove");
+                }
+            } catch (Exception e) {
+                resp.sendRedirect(req.getContextPath() + "/manager/category?systemError");
+            }
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            String categoryName = req.getParameter("categoryName");
+            String id = req.getParameter("id");
+            if (id.isEmpty()) {
+                String categoryName = req.getParameter("categoryName");
 
-            Category category = new Category();
-            category.setCategoryName(categoryName);
-            String dateNow = sdf.format(new Date());
-            category.setDateCreate(sdf.parse(dateNow));
-            HttpSession session = req.getSession();
+                Category category = new Category();
+                category.setCategoryName(categoryName);
+                String dateNow = sdf.format(new Date());
+                category.setDateCreate(sdf.parse(dateNow));
+                HttpSession session = req.getSession();
 
-            AccountInfo accountInfo = (AccountInfo) session.getAttribute("accountInfo");
+                AccountInfo accountInfo = (AccountInfo) session.getAttribute("accountInfo");
 
-            category.setCreateBy(accountInfo.getUserID().toString());
-            if (validate(category, req)) {
-                categoryFacade.create(category);
-                resp.sendRedirect(req.getContextPath() + "/manager/category?success");
+                category.setCreateBy(accountInfo.getGmail());
+                if (validate(category, req)) {
+                    categoryFacade.create(category);
+                    resp.sendRedirect(req.getContextPath() + "/manager/category?success");
+                } else {
+                    req.setAttribute("categoryName", req.getParameter("categoryName"));
+                    req.getRequestDispatcher("/WEB-INF/admin/product/manage-category.jsp").forward(req, resp);
+                }
             } else {
-                req.getRequestDispatcher("/WEB-INF/admin/product/manage-category.jsp").forward(req, resp);
+                String categoryName = req.getParameter("categoryName");
+                Category category = categoryFacade.find(Integer.valueOf(id));
+
+                category.setCategoryName(categoryName);
+                String dateNow = sdf.format(new Date());
+                category.setDateModify(sdf.parse(dateNow));
+                HttpSession session = req.getSession();
+
+                AccountInfo accountInfo = (AccountInfo) session.getAttribute("accountInfo");
+
+                category.setModifyBy(accountInfo.getGmail());
+                if (validate(category, req)) {
+                    categoryFacade.edit(category);
+                    resp.sendRedirect(req.getContextPath() + "/manager/category?successEdit");
+                } else {
+                    req.setAttribute("categoryName", req.getParameter("categoryName"));
+                    req.setAttribute("id", req.getParameter("id"));
+                    req.getRequestDispatcher("/WEB-INF/admin/product/manage-category.jsp").forward(req, resp);
+                }
             }
         } catch (ParseException ex) {
             resp.sendRedirect(req.getContextPath() + "/manager/category?systemError");
@@ -61,7 +100,7 @@ public class CategoryServlet extends HttpServlet {
     }
 
     private boolean validate(Category category, HttpServletRequest req) {
-         String regexCategory = "^[_A-z0-9]*((-|\\s)*[_A-z0-9])*$";
+        String regexCategory = "^[_A-z0-9]*((-|\\s)*[_A-z0-9])*$";
         Pattern cate = Pattern.compile(regexCategory);
         Matcher m_cate = cate.matcher(category.getCategoryName());
         boolean check = true;
@@ -70,7 +109,8 @@ public class CategoryServlet extends HttpServlet {
             check = false;
             req.setAttribute("categoryNameError", "Category name not valid !!!");
         }
-        if (categoryFacade.checkDupplicate(category.getCategoryName())==false) {
+        boolean checkDupplicate = categoryFacade.checkDupplicate(category.getCategoryName());
+        if (checkDupplicate == false) {
             check = false;
             req.setAttribute("CategoryNameDupplicateError", "Category name has been exist !!!");
         }
