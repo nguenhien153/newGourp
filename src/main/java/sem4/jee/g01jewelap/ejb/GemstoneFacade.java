@@ -34,5 +34,15 @@ public class GemstoneFacade extends AbstractFacade<Gemstone> {
         return em.createNativeQuery("select id ,width , lenght, total_number, total_weight, carat from "
                 + "gemstone where product_name = '" + name + "'", Gemstone.class).getResultList();
     }
-    
+
+    public List<Gemstone> findByProductName(String productName) {
+        List<Gemstone> gemstones = em.createNativeQuery("Select * from gemstone where product_name = '" + productName + "'", Gemstone.class)
+                .getResultList();
+        if (gemstones.isEmpty()) {
+            return null;
+        } else {
+            return gemstones;
+        }
+    }
+
 }

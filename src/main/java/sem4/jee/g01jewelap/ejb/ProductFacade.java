@@ -9,6 +9,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.SynchronizationType;
 import sem4.jee.g01jewelap.entity.mysql.Product;
 
 /**
@@ -36,11 +38,30 @@ public class ProductFacade extends AbstractFacade<Product> {
                 .getResultList();
         if (products.isEmpty()) {
             return null;
-        }
-        else{
-           Product product = products.get(0);
-           return product.getId();
+        } else {
+            Product product = products.get(0);
+            return product.getId();
         }
     }
 
+    public Product findByProductName(String productName) {
+        em.flush();
+        List<Product> products = em.createNativeQuery("SELECT * from product where product_name= '" + productName + "' ", Product.class)
+                .getResultList();
+        if (products.isEmpty()) {
+            return null;
+        } else {
+            return products.get(0);
+        }
+    }
+
+    public Product findById(Integer id) {
+        List<Product> products = em.createNativeQuery("SELECT * from product where id= " + id.toString() + " ", Product.class)
+                .getResultList();
+        if (products.isEmpty()) {
+            return null;
+        } else {
+            return products.get(0);
+        }
+    }
 }

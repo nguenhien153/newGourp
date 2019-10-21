@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,15 @@ public class ImageFacade extends AbstractFacade<Image> {
     public ImageFacade() {
         super(Image.class);
     }
-    
+
+    public List<Image> findByProductName(String productName) {
+        List<Image> images = em.createNativeQuery("Select * from image where product_name = '" + productName + "'", Image.class)
+                .getResultList();
+        if (images.isEmpty()) {
+            return null;
+        } else {
+            return images;
+        }
+    }
+
 }

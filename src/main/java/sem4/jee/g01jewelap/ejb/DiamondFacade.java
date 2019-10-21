@@ -35,4 +35,14 @@ public class DiamondFacade extends AbstractFacade<Diamond> {
                 + "diamond where product_name = '" + name + "'", Diamond.class).getResultList();
     }
 
+    public List<Diamond> findByProductName(String productName) {
+        List<Diamond> diamonds = em.createNativeQuery("Select * from diamond where product_name = '" + productName + "'", Diamond.class)
+                .getResultList();
+        if (diamonds.isEmpty()) {
+            return null;
+        } else {
+            return diamonds;
+        }
+    }
+
 }

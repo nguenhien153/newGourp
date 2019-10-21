@@ -5,6 +5,7 @@
  */
 package sem4.jee.g01jewelap.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,17 @@ public class MetalTypeFacade extends AbstractFacade<MetalType> {
     public MetalTypeFacade() {
         super(MetalType.class);
     }
+
+    public MetalType findByProductName(String metalTypeName) {
+        List<MetalType> metalTypes = em.createQuery("SELECT p FROM MetalType p WHERE p.metalTypeName = :name", MetalType.class)
+                .setParameter("name", metalTypeName)
+                .getResultList();
+        if (metalTypes.isEmpty()) {
+            return null;
+        } else {
+            return metalTypes.get(0);
+        }
+    }
+
     
 }

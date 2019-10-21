@@ -19,7 +19,8 @@
             <h6 class="dropdown-header" style="color: #0099ff; font-weight: bold;font-size: 18px">Manage Product:</h6>
             <a class="dropdown-item" href="<c:url value="/manager/category"/>">Category</a>
             <a class="dropdown-item" href="<c:url value="/manager/product-type"/>">Product Type</a>
-            <a class="dropdown-item" href="forgot-password.html">Product</a>
+            <a class="dropdown-item" href="<c:url value="/manager/product"/>">Product</a>
+            <a class="dropdown-item" href="<c:url value="/manager/metal-type"/>">Metal Type</a>
             <div class="dropdown-divider"></div>
             <h6 class="dropdown-header">Other Pages:</h6>
             <a class="dropdown-item" href="404.html">404 Page</a>

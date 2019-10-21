@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sem4.jee.g01jewelap.web.admin.product;
+package sem4.jee.g01jewelap.web.admin.product.category;
 
 import java.io.IOException;
 import java.text.ParseException;

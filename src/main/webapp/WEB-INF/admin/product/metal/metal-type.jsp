@@ -6,9 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<c:url var="id" value="${id}"/>
-<c:url var="cateName" value="${categoryName}"/>
-<c:url var="typeName" value="${productTypeName}"/>
+<c:url var="productSup" value="${metalType.metalTypeName}"/>
+<c:url var="idPk" value="${metalType.id}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +18,6 @@
         <link href="../assets/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css"/>
         <link href="../assets/datatables/buttons.dataTables.min.css" rel="stylesheet" type="text/css"/>
         <link href="../assets/datatables/select.dataTables.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../assets/css/product/autocomplete.css" rel="stylesheet" type="text/css"/>
         <style>
             /*     Toast       */
             #snackbar {
@@ -66,7 +64,7 @@
                 to {bottom: 0; opacity: 0;}
             }
 
-        
+
         </style>
     </head>
     <body id="page-top">
@@ -93,10 +91,10 @@
                                                 ID
                                             </th>
                                             <th>
-                                                Product Type Name
+                                                Metal Type
                                             </th>
                                             <th>
-                                                Category Name
+                                                Rate
                                             </th>
                                             <th>
                                                 Date Create
@@ -118,10 +116,10 @@
                                                 ID
                                             </th>
                                             <th>
-                                                Product Type Name
+                                                Metal Type
                                             </th>
                                             <th>
-                                                Category Name
+                                                Rate
                                             </th>
                                             <th>
                                                 Date Create
@@ -158,41 +156,27 @@
                         <form method="post" action="" id="formInModal" autocomplete="off">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <c:if test="${not empty categoryName || not empty productTypeName}">
+                                    <c:if test="${not empty mapError}">
                                         <div class="showError alert-danger text-center mb-4 rounded-pill">
-                                            <span class="text-danger align-middle" style="font-weight: bold; list-style-type: noneo">
-                                                <ui>
-                                                    <c:if test="${not empty productTypeNameError}">
-                                                        <li>
-                                                            ${productTypeNameError} 
-                                                        </li>
-                                                    </c:if>
-                                                    <c:if test="${not empty productTypeNameDupplicateError}">
-                                                        <li>
-                                                            ${productTypeNameDupplicateError} 
-                                                        </li>
-                                                    </c:if>
-                                                    <c:if test="${not empty CategoryNameNotExist}">
-                                                        <li>
-                                                            ${CategoryNameNotExist} 
-                                                        </li>
-                                                    </c:if>
-                                                </ui>
-                                            </span>
+                                            <ui class="text-danger align-middle" style="font-weight: bold; list-style-type: none">
+                                                <c:forEach items="${mapError}" var="item">
+                                                    <li>${item.value}</li>
+                                                    </c:forEach>
+                                            </ui>
                                         </div>
                                     </c:if>
                                     <input type="hidden" value="${id}" name="id" id="id"/>
                                     <div class="form-label-group">
-                                        <input type="text" id="inputProductTypeName" class="form-control" placeholder="Product Type Name"
-                                               required="required" maxlength="50" title="Not Contain Special Character. Lenght:4-50" name="productTypeName" minlength="4"
-                                               pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" value="${typeName}">
-                                        <label for="inputProductTypeName">Product Type Name</label>
+                                        <input type="text" id="inputMetalTypeName" class="form-control" placeholder="Metal Type"
+                                               required="required" maxlength="50" title="Not Contain Special Character. Lenght:4-50" name="metalTypeName" minlength="4"
+                                               pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" value="${metalType.metalTypeName}">
+                                        <label for="inputMetalTypeName">Metal Type</label>
                                     </div>  
-                                    <div class="form-label-group mt-4 autocomplete">
-                                        <input type="text" id="inputCategoryName" class="form-control" placeholder="Category Name"
-                                               required="required" maxlength="50" title="Not Contain Special Character. Lenght:4-50" name="categoryName" minlength="4"
-                                               pattern="^[_A-z0-9]*((-|\s)*[_A-z0-9])*$" value="${cateName}">
-                                        <label for="inputCategoryName">Category Name</label>
+                                    <div class="form-label-group mt-4">
+                                        <input type="text" id="inputRate" class="form-control" placeholder="Rate"
+                                               required="required" title="Lenght: 10 number (Can contain 2 deciaml places)" name="rate"
+                                               pattern="^[0-9]{1,10}(\.[0-9]{1,2})?$" value="${metalType.rate}">
+                                        <label for="inputRate">Rate</label>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +222,7 @@
             <script src="../assets/datatables/dataTables.bootstrap4.js" type="text/javascript"></script>
             <script src="../assets/datatables/dataTables.buttons.min.js" type="text/javascript"></script>
             <script src="../assets/datatables/dataTables.select.min.js" type="text/javascript"></script>
-            <script src="../assets/js/product/autocomplete.js" type="text/javascript"></script>
+            <script src="../assets/numberalJS/numeral.min.js" type="text/javascript"></script>
             <script src="../assets/js/admin/sb-admin.min.js" type="text/javascript"></script>
 
             <script type="text/javascript">
@@ -252,36 +236,40 @@
                 $(document).ready(function () {
                     var urlParams = new URLSearchParams(window.location.search);
 
-                    if ('${id}' === '')
-                    {
-                        if ('${cateName}' !== '') {
-                            $("#formModal").modal("show");
+                    if ('${productSup}' === '') {
+                        if (urlParams.get("successCreate") !== null) {
+                            showToast("Create Product Success");
                         }
-                        if ('${cateName}' === '' && '${typeName}' === '')
+                        if (urlParams.get("successEdit") !== null) {
+                            showToast("Edit Product Success");
+                        }
+                        if (urlParams.get("successRemove") !== null) {
+                            showToast("Remove Product Success");
+                        }
+                        if (urlParams.get("failRemove") !== null) {
+                            showToast("Not found the id !!!");
+                        }
+                        if (urlParams.get("systemError") !== null)
                         {
-                            if (urlParams.get("success") !== null) {
-                                showToast("Create Product Type Success");
-                            }
-                            if (urlParams.get("successEdit") !== null) {
-                                showToast("Edit Product Type Success");
-                            }
-                            if (urlParams.get("successRemove") !== null) {
-                                showToast("Remove Product Type Success");
-                            }
-                            if (urlParams.get("failRemove") !== null) {
-                                showToast("Not found the id !!!");
-                            }
-                            if (urlParams.get("systemError") !== null)
-                            {
-                                showToast("System Errors. Please Trying Againt !!!");
-                            }
+                            showToast("System Errors. Please Trying Againt Later !!!");
+                        }
+                        if (urlParams.get("cannotDelete") !== null)
+                        {
+                            showToast("This is a parent row !!!");
                         }
                     } else {
+                        if ('${idPk}' === '')
+                        {
+                            $("#buttonForm").text("Create");
+                            $("#id").val('');
+                        } else {
+                            $("#buttonForm").text("Edit");
+                        }
                         $("#formModal").modal("show");
                     }
 
                     var e = $.ajax({
-                        url: "/g01jewelap/api-productype",
+                        url: "/g01jewelap/api-metaltype",
                         type: "get",
 //                    contentType: "application/json; charset=utf-8", //application/html;charset=utf-8
                         dataType: "JSON"
@@ -299,17 +287,17 @@
                                     }
                                 },
                                 {
-                                    "data": "productTypeName",
+                                    "data": "metalTypeName",
                                     "className": "align-middle",
-                                    "render": function (productTypeName) {
-                                        return productTypeName;
+                                    "render": function (metalTypeName) {
+                                        return metalTypeName;
                                     }
                                 },
                                 {
-                                    "data": "categoryName",
+                                    "data": "rate",
                                     "className": "align-middle",
-                                    "render": function (categoryName) {
-                                        return categoryName;
+                                    "render": function (rate) {
+                                        return numeral(rate).format('$0,0.00');
                                     }
                                 },
                                 {
@@ -353,22 +341,22 @@
                                         $(".showError").hide();
                                         $("#buttonForm").text("Create");
                                         $("#id").val('');
-                                        $("#inputCategoryName").val('');
-                                        $("#inputProductTypeName").val('');
+                                        $("#inputMetalTypeName").val('');
+                                        $("#inputRate").val('');
                                     }
                                 },
                                 {
                                     text: 'Edit',
                                     action: function (e, dt, node, config) {
                                         try {
-                                            var cateName = dt.row({selected: true}).data().categoryName;
-                                            var typeName = dt.row({selected: true}).data().productTypeName;
+                                            var name = dt.row({selected: true}).data().metalTypeName;
+                                            var rate = dt.row({selected: true}).data().rate;
                                             var id = dt.row({selected: true}).data().id;
                                             $(".showError").hide();
                                             $("#formModal").modal("show");
                                             $("#id").val(id);
-                                            $("#inputCategoryName").val(cateName);
-                                            $("#inputProductTypeName").val(typeName);
+                                            $("#inputMetalTypeName").val(name);
+                                            $("#inputRate").val(rate);
                                             $("#buttonForm").text("Edit");
                                         } catch (err) {
                                             alert('Please Select One Row');
@@ -381,7 +369,7 @@
                                         try {
                                             var id = dt.row({selected: true}).data().id;
                                             $("#deleteModal").modal("show");
-                                            $("#textDeleteForm").text("Are you sure to remove the Product Type with Id:" + id + " ?");
+                                            $("#textDeleteForm").text("Are you sure to remove the Metal Type with Id:" + id + " ?");
                                             $("#idDeleteForm").val(id);
                                         } catch (err) {
                                             alert('Please Select One Row');
@@ -389,15 +377,6 @@
                                     }
                                 }
                             ]
-                        });
-                        var auto = $.ajax({
-                            url: "/g01jewelap/api-auto-category",
-                            type: "get",
-//                    contentType: "application/json; charset=utf-8", //application/html;charset=utf-8
-                            dataType: "JSON"
-                        });
-                        auto.done(function (data) {
-                            autocomplete(document.getElementById("inputCategoryName"), data);
                         });
                     });
                     e.fail(function (xhr, status) {
