@@ -66,7 +66,6 @@
         <%@include file="../../../fragments/admin/navigation.jsp" %>
 
 
-
         <div id="wrapper">
             <!-- Sidebar -->
             <%@include file="../../../fragments/admin/slidebar.jsp" %>
@@ -461,7 +460,7 @@
             </div>
             <!--End Metal Modal -->
 
-            <!-- Gemstone modal -->
+            <!-- Image modal -->
             <div class="modal fade" id="formModalImage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -481,6 +480,36 @@
                                         <label for="inputMainImage"><strong>Main Image</strong></label>
                                         <input type="file" id="inputMainImage" class="form-control-file" 
                                                required="required"  name="mainImage"  value="">
+                                    </div>
+                                    <div class="form-group mt-4 d-flex justify-content-center align-items-center">
+                                        <img id="subImage" src="" style="width: 100px"/>
+                                        <label for="inputSubImage"><strong>Sub Image</strong></label>
+                                        <input type="file" id="inputSubImage" class="form-control-file" 
+                                               required="required"  name="subImage"  value="">
+                                    </div>
+                                    <div class="form-group mt-4 d-flex justify-content-center align-items-center">
+                                        <img id="image1" src="" style="width: 100px"/>
+                                        <label for="inputImage1"><strong>Image 1</strong></label>
+                                        <input type="file" id="inputImage1" class="form-control-file" 
+                                               required="required"  name="image1"  value="">
+                                    </div>
+                                    <div class="form-group mt-4 d-flex justify-content-center align-items-center">
+                                        <img id="image2" src="" style="width: 100px"/>
+                                        <label for="inputImage2"><strong>Image 2</strong></label>
+                                        <input type="file" id="inputImage2" class="form-control-file" 
+                                               required="required"  name="image2"  value="">
+                                    </div>
+                                    <div class="form-group mt-4 d-flex justify-content-center align-items-center">
+                                        <img id="image3" src="" style="width: 100px"/>
+                                        <label for="inputImage3"><strong>Image 3</strong></label>
+                                        <input type="file" id="inputImage3" class="form-control-file" 
+                                               required="required"  name="image3"  value="">
+                                    </div>
+                                    <div class="form-group mt-4 d-flex justify-content-center align-items-center">
+                                        <img id="image4" src="" style="width: 100px"/>
+                                        <label for="inputImage4"><strong>Image 4</strong></label>
+                                        <input type="file" id="inputImage4" class="form-control-file" 
+                                               required="required"  name="image4"  value="">
                                     </div>
                                 </div>
                             </div>
@@ -517,7 +546,7 @@
                     </div>
                 </div>
             </div>
-            <!--End Metal Modal -->
+            <!--End Image Modal -->
 
             <div id="snackbar"></div>
             <script src="../assets/jquery/jquery.min.js" type="text/javascript"></script>       
@@ -556,6 +585,26 @@
                         readURL(this, "#mainImage");
                     });
 
+                    $("#inputSubImage").change(function () {
+                        readURL(this, "#subImage");
+                    });
+                    
+                    $("#inputImage1").change(function () {
+                        readURL(this, "#image1");
+                    });
+                    
+                    $("#inputImage2").change(function () {
+                        readURL(this, "#image2");
+                    });
+                    
+                    $("#inputImage3").change(function () {
+                        readURL(this, "#image3");
+                    });
+                    
+                    $("#inputImage4").change(function () {
+                        readURL(this, "#image4");
+                    });
+                    
 
                     var urlParams = new URLSearchParams(window.location.search);
 
